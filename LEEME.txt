@@ -1,0 +1,99 @@
+# Test Policía Local CV — App de estudio
+
+Aplicación web para preparar el examen de **Oficial de Policía Local de la Comunitat Valenciana**.
+Incluye **1.954 preguntas** (las 20 temas del temario oficial), ya **corregidas y actualizadas** según el temario vigente, con su solucionario.
+
+---
+
+## 🚀 Cómo abrirla
+
+**Opción A — en tu ordenador (sin internet ni instalación):**
+1. Haz doble clic en el archivo `index.html`.
+2. Se abre en tu navegador. Listo.
+
+> También puedes arrastrar la carpeta `AppExamen` entera a una pestaña del navegador.
+
+**Opción B — en el móvil / tablet (o para compartir):** súbela a un hosting gratuito:
+- **Netlify** → arrastra la carpeta `AppExamen` a https://app.netlify.com/drop
+- **Vercel** → https://vercel.com (importa la carpeta)
+- **GitHub Pages** → sube los archivos a un repositorio y activa Pages
+
+Quedará en una URL propia que podrás abrir desde cualquier dispositivo.
+
+---
+
+## 🎯 Modos de estudio
+
+| Modo | Qué hace |
+|---|---|
+| **Examen oficial** | 75 preguntas mezcladas de los 20 temas, acierto **+1** y fallo **−0,33**. Sin corrección hasta el final. El cronómetro es **ajustable** (por defecto 75 min). |
+| **Mini exámenes** | 10 · 20 · 30 · 50 · 75 preguntas mezcladas. |
+| **Examen por tema** | Elige un tema concreto y el número de preguntas. |
+| **Modo entrenamiento** | Corrige cada respuesta **al instante** y te muestra la explicación/nota cuando la hay. |
+| **Repaso del temario** | Recorre las **1.954 preguntas en orden** (tema 1 → 20) con corrección inmediata; recuerda dónde lo dejaste para continuar. |
+| **Repasar fallos** | Vuelve a hacer las preguntas que has fallado. |
+| **Las que más fallo** | Ranking de tus preguntas más falladas. |
+| **Estadísticas por tema** | Porcentaje de aciertos de cada tema (para ver tus puntos débiles). |
+| **Mi evolución** | Historial de tus exámenes: nota media, mejor nota y tendencia. |
+| **Editar preguntas** | Modifica, añade o elimina preguntas (se guardan en tu dispositivo). |
+| **Sincronizar / datos** | Exporta e importa tu progreso y tu banco de preguntas. |
+
+### Sonido
+En **Sincronizar / datos → Preferencias** puedes activar o desactivar el **sonido al acertar/fallar** en el modo entrenamiento y el repaso.
+
+### Explicación en cada pregunta
+Las **1.954 preguntas** incluyen una **explicación** de por qué la respuesta es correcta. Se muestra en el **modo entrenamiento**, el **repaso del temario** y en la **revisión final** de cada examen. También puedes editarla desde **Editar preguntas** (campo "Explicación").
+
+### Cronómetro ajustable
+En cualquier examen (oficial, mini o por tema) puedes elegir:
+- **Sin cronómetro** (para practicar sin presión).
+- **Automático** (1 minuto por pregunta).
+- **Personalizado** (tú fijas los minutos).
+
+Al terminar el tiempo, el examen se corrige solo con lo que llevas respondido.
+
+### Puntuación
+- Acierto = **+1 punto** · Fallo = **−0,33 puntos** · En blanco = 0.
+- Nota sobre 10 = (aciertos − 0,33 × fallos) / nº preguntas × 10.
+- Se marca **APROBADO** con nota ≥ 5,00 (el corte real lo fija cada convocatoria).
+
+---
+
+## 🔁 Sincronizar el progreso entre dispositivos
+
+Al ser una app sin servidor, los datos se guardan **en el navegador** (localStorage). Para pasarlos de un dispositivo a otro:
+
+1. En el dispositivo de origen: **Sincronizar / datos → ⬇️ Exportar progreso**. Te descarga un archivo `progreso.json`.
+2. Guarda ese archivo en tu nube (OneDrive/Drive) o envíatelo por correo.
+3. En el otro dispositivo: **Sincronizar / datos → ⬆️ Importar progreso** y selecciona el archivo.
+
+Lo mismo con **Exportar/Importar banco de preguntas** (para llevar tus preguntas editadas a otro dispositivo).
+
+> ⚠️ Si borras los datos del navegador, se pierde el progreso. Haz una **exportación de copia de seguridad** de vez en cuando.
+
+---
+
+## ✏️ Editar preguntas
+
+- En **Editar preguntas** puedes buscar por tema o texto, y pulsar una pregunta para cambiarla (enunciado, opciones, respuesta correcta y nota).
+- **+ Nueva pregunta** añade una pregunta propia.
+- Los cambios se guardan solo en tu dispositivo. Para que **otros dispositivos** vean tus cambios, usa **Exportar/Importar banco**.
+
+---
+
+## 📌 Nota sobre las preguntas
+
+- El banco incluye las **52 preguntas que estaban desactualizadas** ya **corregidas** conforme al temario actualizado (cambios de normativa, plazos, cuantías, artículos…).
+- En el **Tema 15 (bous al carrer)** hay dos versiones: las preguntas afectadas por la **versión que entrará en vigor en enero de 2027** llevan una nota que lo indica.
+- Las preguntas corregidas muestran una **nota explicativa** en el modo entrenamiento y en la revisión.
+
+---
+
+## 🗂️ Archivos
+
+- `index.html` — interfaz.
+- `styles.css` — estilos.
+- `app.js` — lógica.
+- `preguntas.js` — banco de 1.954 preguntas (no editar a mano salvo que sepas; usa el editor de la app).
+
+*App generada para uso personal de estudio. Las preguntas provienen de los tests oficiales y del temario del autor José Vte. Camarasa Ramos.*

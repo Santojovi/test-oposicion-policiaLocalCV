@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Test Policía Local CV</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <button id="btnHome" class="icon-btn" title="Menú principal">☰</button>
+  <div class="brand">Policía Local CV</div>
+  <div id="topbarTimer" class="timer-pill" hidden></div>
+</header>
+
+<main id="app">
+
+  <!-- ============ HOME ============ -->
+  <section id="screen-home" class="screen active">
+    <h1>Preparación Policía Local<br><span>Comunitat Valenciana</span></h1>
+    <div class="stat-cards" id="homeStats"></div>
+    <nav class="menu">
+      <button class="menu-btn" data-action="exam75">🎯 Examen oficial<br><small>75 preguntas · 75 min · fallo −0,33</small></button>
+      <button class="menu-btn" data-action="mini">📝 Mini exámenes<br><small>10 · 20 · 30 · 50 · 75 preguntas</small></button>
+      <button class="menu-btn" data-action="tema">📚 Examen por tema</button>
+      <button class="menu-btn" data-action="training">⚡ Modo entrenamiento<br><small>corrección inmediata</small></button>
+      <button class="menu-btn" data-action="repaso">📖 Repaso del temario<br><small>las 1.954 preguntas en orden</small></button>
+      <button class="menu-btn" data-action="fallos">🔁 Repasar fallos</button>
+      <button class="menu-btn" data-action="masfallo">📉 Las que más fallo</button>
+      <button class="menu-btn" data-action="statstema">📊 Estadísticas por tema</button>
+      <button class="menu-btn" data-action="historial">📈 Mi evolución</button>
+      <button class="menu-btn" data-action="editor">🛠️ Editar preguntas</button>
+      <button class="menu-btn" data-action="sync">🔁 Sincronizar / datos</button>
+    </nav>
+  </section>
+
+  <!-- ============ CONFIG (mini / tema) ============ -->
+  <section id="screen-config" class="screen">
+    <h2 id="configTitle">Configurar examen</h2>
+    <div class="card">
+      <label>Tema</label>
+      <select id="cfgTema"></select>
+      <label>Número de preguntas</label>
+      <select id="cfgCount">
+        <option value="10">10</option><option value="20">20</option><option value="30">30</option>
+        <option value="50">50</option><option value="75">75</option>
+        <option value="all">Todas</option>
+      </select>
+      <label>Cronómetro</label>
+      <select id="cfgTimerMode">
+        <option value="none">Sin cronómetro</option>
+        <option value="auto">Automático (1 min por pregunta)</option>
+        <option value="custom">Personalizado (minutos)</option>
+      </select>
+      <div id="cfgCustomWrap" hidden>
+        <label>Minutos</label>
+        <input type="number" id="cfgMinutes" min="1" max="300" value="75">
+      </div>
+      <label class="chk"><input type="checkbox" id="cfgShuffle" checked> Mezclar preguntas</label>
+      <button class="primary" id="cfgStart">Comenzar</button>
+      <button class="ghost" data-action="home">Cancelar</button>
+    </div>
+  </section>
+
+  <!-- ============ EXAM ============ -->
+  <section id="screen-exam" class="screen">
+    <div class="exam-head">
+      <div id="examLabel" class="exam-label"></div>
+      <div id="examTimer" class="exam-timer"></div>
+    </div>
+    <div class="progress"><div id="progressBar" class="progress-fill"></div></div>
+    <div class="question-card">
+      <div class="q-meta"><span id="qTemaTag" class="tag"></span><span id="qCounter"></span></div>
+      <div id="qEnunciado" class="q-enunciado"></div>
+      <div id="qOpciones" class="options"></div>
+    </div>
+    <div class="q-actions">
+      <label class="chk small"><input type="checkbox" id="qFlag"> Marcar para repasar</label>
+      <div class="nav-btns">
+        <button class="ghost" id="btnPrev">← Anterior</button>
+        <button class="ghost" id="btnNext">Siguiente →</button>
+        <button class="danger" id="btnFinish">Terminar</button>
+      </div>
+    </div>
+    <div id="navigator" class="navigator"></div>
+  </section>
+
+  <!-- ============ TRAINING ============ -->
+  <section id="screen-training" class="screen">
+    <div class="exam-head">
+      <div id="trLabel" class="exam-label">Modo entrenamiento</div>
+    </div>
+    <div class="progress"><div id="trProgress" class="progress-fill"></div></div>
+    <div class="question-card">
+      <div class="q-meta"><span id="trTemaTag" class="tag"></span><span id="trCounter"></span></div>
+      <div id="trEnunciado" class="q-enunciado"></div>
+      <div id="trOpciones" class="options"></div>
+      <div id="trFeedback" class="feedback" hidden></div>
+    </div>
+    <div class="q-actions">
+      <button class="ghost" id="trPrev">← Anterior</button>
+      <button class="primary" id="trNext" disabled>Siguiente →</button>
+      <button class="ghost" data-action="home">Salir</button>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="screen-results" class="screen">
+    <h2>Resultado</h2>
+    <div class="result-cards" id="resultCards"></div>
+    <div id="resultVerdict" class="verdict"></div>
+    <div class="q-actions">
+      <button class="primary" id="btnReview">Revisar respuestas</button>
+      <button class="ghost" id="btnRetry">Repetir</button>
+      <button class="ghost" data-action="home">Menú</button>
+    </div>
+    <div id="reviewList" class="review-list" hidden></div>
+  </section>
+
+  <!-- ============ REVIEW (fallos / más fallo) ============ -->
+  <section id="screen-list" class="screen">
+    <h2 id="listTitle">Listado</h2>
+    <div class="card" id="listControls"></div>
+    <div id="listContent" class="list-content"></div>
+  </section>
+
+  <!-- ============ HISTORIAL / EVOLUCIÓN ============ -->
+  <section id="screen-historial" class="screen">
+    <h2>Mi evolución</h2>
+    <div class="stat-cards" id="histSummary"></div>
+    <div id="histContent" class="list-content"></div>
+  </section>
+
+  <!-- ============ SYNC / DATA ============ -->
+  <section id="screen-sync" class="screen">
+    <h2>Sincronizar y datos</h2>
+    <div class="card">
+      <h3>Progreso (historial, fallos, estadísticas)</h3>
+      <p class="hint">Guarda tu progreso en un archivo y recupéralo en otro dispositivo.</p>
+      <button class="primary" id="btnExportProgress">⬇️ Exportar progreso</button>
+      <button class="ghost" id="btnImportProgress">⬆️ Importar progreso</button>
+      <input type="file" id="fileProgress" accept="application/json" hidden>
+    </div>
+    <div class="card">
+      <h3>Banco de preguntas (con tus ediciones)</h3>
+      <p class="hint">Exporta el banco completo (incluidas las preguntas que edites/añadas) para hacer copia o actualizar la app.</p>
+      <button class="primary" id="btnExportBank">⬇️ Exportar banco de preguntas</button>
+      <button class="ghost" id="btnImportBank">⬆️ Importar banco de preguntas</button>
+      <input type="file" id="fileBank" accept="application/json" hidden>
+    </div>
+    <div class="card">
+      <h3>Preferencias</h3>
+      <label class="chk"><input type="checkbox" id="cfgSonido" checked> Sonido al acertar/fallar</label>
+    </div>
+    <div class="card">
+      <h3>Borrar datos</h3>
+      <p class="hint">Restablece el progreso (no borra las preguntas).</p>
+      <button class="danger" id="btnResetProgress">🗑️ Borrar progreso</button>
+    </div>
+  </section>
+
+  <!-- ============ EDITOR ============ -->
+  <section id="screen-editor" class="screen">
+    <h2>Editar preguntas</h2>
+    <div class="card editor-tools">
+      <select id="edTema"><option value="all">Todos los temas</option></select>
+      <input type="search" id="edSearch" placeholder="Buscar…">
+      <button class="primary" id="btnNewQuestion">+ Nueva pregunta</button>
+    </div>
+    <div id="edList" class="list-content"></div>
+  </section>
+
+</main>
+
+<!-- modal editor -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-box">
+    <h3 id="modalTitle">Editar pregunta</h3>
+    <label>Tema</label>
+    <select id="edFieldTema"></select>
+    <label>Enunciado</label>
+    <textarea id="edFieldEnunciado" rows="3"></textarea>
+    <label>Opción A (correcta = respuesta)</label><input id="edFieldA">
+    <label>Opción B</label><input id="edFieldB">
+    <label>Opción C</label><input id="edFieldC">
+    <label>Opción D</label><input id="edFieldD">
+    <label>Respuesta correcta</label>
+    <select id="edFieldRespuesta">
+      <option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option>
+    </select>
+    <label>Explicación (por qué es correcta)</label>
+    <textarea id="edFieldEx" rows="3"></textarea>
+    <label>Nota / aviso de actualización (opcional)</label>
+    <textarea id="edFieldNota" rows="2"></textarea>
+    <div class="modal-actions">
+      <button class="primary" id="btnSaveQuestion">Guardar</button>
+      <button class="danger" id="btnDeleteQuestion">Eliminar</button>
+      <button class="ghost" id="btnCancelQuestion">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="preguntas.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
